@@ -1,6 +1,7 @@
 <script setup>
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
+import Button from 'primevue/button';
 
 const props = defineProps({
   id: { type: String, required: false, default: crypto.randomUUID() },
@@ -26,6 +27,10 @@ const props = defineProps({
                 <span>{{ episode.title }}</span>
               </div>
               <img class="rounded-md" :src="episode.episodeThumbnail" />
+              <Button
+                icon="pi pi-cloud-download"
+                class="p-button-rounded p-button-outlined"
+              />
             </div>
           </li>
         </ul>
