@@ -2,6 +2,7 @@
 import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import NavbarMain from '@/components/NavbarMain.vue';
+import { useSettingsStore } from '@/stores/TvShowStore';
 
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
@@ -9,6 +10,9 @@ import Toast from 'primevue/toast';
 import axios from 'axios';
 
 const toast = useToast();
+
+const clientBaseUrl = import.meta.env.VITE_SOURCE_BASE_URL;
+const settingsStore = useSettingsStore();
 
 onMounted(() => {
   axios
@@ -26,6 +30,8 @@ onMounted(() => {
         life: 3000,
       });
     });
+
+  settingsStore.setSourceBaseUrl(clientBaseUrl);
 });
 </script>
 

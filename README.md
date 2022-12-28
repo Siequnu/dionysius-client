@@ -1,6 +1,6 @@
 # Dionysus-browser
 
-A client for Flixtor, adding functionality like
+A client for managing movies, adding functionality like
 
 - tracking latest show releases
 - tracking watched shows

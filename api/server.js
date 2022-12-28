@@ -34,7 +34,7 @@ app.post(`/getShowDetails`, async (request, response) => {
 });
 
 app.listen(port, () => {
-  console.log(`Flixtor browser API started on ${port}`);
+  console.log(`Dionysus browser API started on ${port}`);
 });
 
 async function getShowImageUrl(url) {

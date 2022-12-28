@@ -2,14 +2,16 @@
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Button from 'primevue/button';
+import { useSettingsStore } from '@/stores/TvShowStore';
 
+const settingsStore = useSettingsStore();
 const props = defineProps({
   id: { type: String, required: false, default: crypto.randomUUID() },
   seasons: { type: Array, required: true },
 });
 
 const handleDownloadLink = (link) => {
-  window.open(`https://flixtor.to/${link}`, '_blank');
+  window.open(`${settingsStore.sourceBaseUrl}/${link}`, '_blank');
 };
 </script>
 
