@@ -18,8 +18,6 @@ onMounted(() => {
       url: props.show.showUrl,
     })
     .then((response) => {
-      console.log('Card show: got data');
-      console.log(response.data);
       apiData = response.data;
     })
     .catch((error) => {
