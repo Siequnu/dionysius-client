@@ -2,7 +2,7 @@
 
 <template>
   <div class="Navbar__top flex w-full justify-between bg-neutral-800 p-5">
-    <a @click="$router.go('/')">Home</a>
+    <a @click="$router.push('/')">Home</a>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <script setup>
 import ShowDetails from '@/components/ShowDetails.vue';
-import { onBeforeMount } from 'vue';
+import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTvShowStore } from '@/stores/TvShowStore';
 import { useToast } from 'primevue/usetoast';
@@ -9,7 +9,7 @@ const TvShowStore = useTvShowStore();
 const toast = useToast();
 const router = useRouter();
 
-onBeforeMount(() => {
+onMounted(() => {
   if (!TvShowStore.currentlySelectedShow) {
     toast.add({
       severity: 'error',
