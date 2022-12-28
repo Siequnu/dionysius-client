@@ -2,7 +2,7 @@
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Button from 'primevue/button';
-import { useSettingsStore } from '@/stores/TvShowStore';
+import { useSettingsStore } from '@/stores/SettingsStore';
 
 const settingsStore = useSettingsStore();
 const props = defineProps({

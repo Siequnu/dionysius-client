@@ -2,7 +2,7 @@
 import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import NavbarMain from '@/components/NavbarMain.vue';
-import { useSettingsStore } from '@/stores/TvShowStore';
+import { useSettingsStore } from '@/stores/SettingsStore';
 
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
