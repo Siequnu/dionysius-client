@@ -7,6 +7,10 @@ const props = defineProps({
   id: { type: String, required: false, default: crypto.randomUUID() },
   seasons: { type: Array, required: true },
 });
+
+const handleDownloadLink = (link) => {
+  window.open(`https://flixtor.to/${link}`, '_blank');
+};
 </script>
 
 <template>
@@ -30,6 +34,7 @@ const props = defineProps({
               <Button
                 icon="pi pi-cloud-download"
                 class="p-button-rounded p-button-outlined"
+                @click="handleDownloadLink(episode.downloadLink)"
               />
             </div>
           </li>
