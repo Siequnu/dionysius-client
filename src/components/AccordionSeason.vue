@@ -11,13 +11,23 @@ const props = defineProps({
 <template>
   <Accordion :activeIndex="0">
     <AccordionTab
-      v-for="(section, index) in props.sections"
+      v-for="(season, index) in props.seasons"
       :key="index"
-      :header="section.title"
+      :header="`Season ${season.season}`"
     >
-      <p>
-        {{ section.body }}
-      </p>
+      <ul>
+        <li v-for="episode in season.episodes" :key="episode.number">
+          <div
+            class="flex gap-3 items-center p-3 hover:bg-neutral-700 transition-all justify-between"
+          >
+            <div class="flex gap-3 items-center">
+              <span>{{ episode.number }}</span>
+              <span>{{ episode.title }}</span>
+            </div>
+            <img class="rounded-md" :src="episode.episodeThumbnail" />
+          </div>
+        </li>
+      </ul>
     </AccordionTab>
   </Accordion>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import axios from 'axios';
 import AccordionSeason from '@/components/AccordionSeason.vue';
 import Chip from 'primevue/chip';
@@ -8,7 +8,7 @@ const props = defineProps({
   show: { type: Object, required: true },
 });
 
-let loading = reactive(true);
+let loading = ref(true);
 let apiData = reactive({});
 
 onMounted(() => {
@@ -26,7 +26,7 @@ onMounted(() => {
     .catch((error) => {
       console.log(error);
     })
-    .finally(() => (loading = false));
+    .finally(() => (loading.value = false));
 });
 </script>
 
