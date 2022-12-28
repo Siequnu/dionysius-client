@@ -15,13 +15,20 @@ const goToShowPage = (show) => {
 </script>
 
 <template>
-  <div class="flex gap-3 flex-wrap items-center justify-center">
-    <ShowCard
-      v-for="(show, index) in TvShowStore.shows"
-      :key="index"
-      @click="goToShowPage(show)"
-      :title="show.title"
-      :showUrl="show.showUrl"
-    />
+  <div class="flex justify-center align-center m-5">
+    <div
+      class="flex flex-col gap-3 max-w-[1000px] justify-center items-center align-center"
+    >
+      <h2 class="text-white text-xl p-5">My shows</h2>
+      <div class="flex gap-3 flex-wrap items-center justify-center">
+        <ShowCard
+          v-for="(show, index) in TvShowStore.shows"
+          :key="index"
+          @click="goToShowPage(show)"
+          :title="show.title"
+          :showUrl="show.showUrl"
+        />
+      </div>
+    </div>
   </div>
 </template>
