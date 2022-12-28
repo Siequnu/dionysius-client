@@ -16,18 +16,29 @@ app.use(
 );
 
 app.get('/', (request, response) => {
-  response.json({ message: 'Worked' });
+  response.json({ message: 'API server is running', running: true });
 });
 
-app.post(`/getShowDetails`, (request, response) => {
+app.post(`/getShowDetails`, async (request, response) => {
   const url = request.body.url;
 
-  axios
+  const image = await getShowDetails(url);
+  response.json({ image: image });
+});
+
+app.listen(port, () => {
+  console.log(`Flixtor browser API started on ${port}`);
+});
+
+async function getShowDetails(url) {
+  let image = null;
+
+  await axios
     .get(url)
     .then((res) => {
       const $ = cheerio.load(res.data);
 
-      const image = $('.section-watch .section-watch-overview img')
+      image = $('.section-watch .section-watch-overview img')
         .first()
         .prop('src');
 
@@ -40,14 +51,10 @@ app.post(`/getShowDetails`, (request, response) => {
       //.forEach((seasonDiv) =>
       //  console.log($(seasonDiv).find('.t14'))
       //);
-
-      response.json({ image: image });
     })
     .catch((error) => {
       console.log(error);
     });
-});
 
-app.listen(port, () => {
-  console.log(`Flixtor browser API started on ${port}`);
-});
+  return image;
+}
