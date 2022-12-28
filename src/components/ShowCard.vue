@@ -24,7 +24,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="rounded-md">
-    <img :src="imageUrl" />
+  <div class="rounded-md shadow-md cursor-pointer">
+    <img class="rounded-md" :src="imageUrl" />
   </div>
 </template>

@@ -14,7 +14,7 @@ const shows = [
 </script>
 
 <template>
-  <div class="flex gap-3 flex-wrap">
+  <div class="flex gap-3 flex-wrap items-center justify-center">
     <ShowCard
       v-for="(show, index) in shows"
       :key="index"
