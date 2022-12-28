@@ -1,19 +1,16 @@
 <script setup>
 import ShowDetails from '@/components/ShowDetails.vue';
-import { onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { onBeforeMount } from 'vue';
+import { useRouter } from 'vue-router';
+import { useTvShowStore } from '@/stores/TvShowStore';
 import { useToast } from 'primevue/usetoast';
+
+const TvShowStore = useTvShowStore();
 const toast = useToast();
-const route = useRoute();
 const router = useRouter();
 
-const show = {
-  name: 'His Dark Materials',
-  url: 'https://flixtor.to/watch/tv/3837242/his-dark-materials',
-};
-
-onMounted(() => {
-  if (!route.params.showObject) {
+onBeforeMount(() => {
+  if (!TvShowStore.currentlySelectedShow) {
     toast.add({
       severity: 'error',
       summary: 'No show selected',
@@ -22,15 +19,16 @@ onMounted(() => {
     });
     router.push('/');
   }
-
-  console.log(route.params.showObject);
 });
 </script>
 
 <template>
   <main>
     <div class="flex justify-center items-center align-center">
-      <ShowDetails :show="show" />
+      <ShowDetails
+        v-if="TvShowStore.currentlySelectedShow"
+        :show="TvShowStore.currentlySelectedShow"
+      />
     </div>
   </main>
 </template>

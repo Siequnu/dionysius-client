@@ -12,11 +12,9 @@ let loading = ref(true);
 let apiData = reactive({});
 
 onMounted(() => {
-  console.log(`Loading ${props.show.name}`);
-
   axios
     .post(`http://localhost:3000/getShowDetails`, {
-      url: props.show.url,
+      url: props.show.showUrl,
     })
     .then((response) => {
       console.log('Card show: got data');

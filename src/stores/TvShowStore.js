@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 export const useTvShowStore = defineStore('TvShowStore', () => {
-  const shows = [
+  let shows = ref([
     {
       title: 'His Dark Materials',
       showUrl: 'https://flixtor.to/watch/tv/3837242/his-dark-materials',
@@ -10,10 +11,15 @@ export const useTvShowStore = defineStore('TvShowStore', () => {
       title: 'Rick and Morty',
       showUrl: 'https://flixtor.to/watch/tv/3393898/rick-and-morty',
     },
-  ];
+  ]);
   function addShow(showObject) {
-    shows.push(showObject);
+    shows.value.push(showObject);
   }
 
-  return { shows, addShow };
+  let currentlySelectedShow = ref(null);
+  function selectShow(show) {
+    currentlySelectedShow.value = show;
+  }
+
+  return { shows, addShow, currentlySelectedShow, selectShow };
 });

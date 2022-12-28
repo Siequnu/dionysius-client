@@ -1,7 +1,17 @@
 <script setup>
+import { useRouter } from 'vue-router';
 import ShowCard from '@/components/ShowCard.vue';
-import { useTvShowStore } from '@/stores/counter';
+import { useTvShowStore } from '@/stores/TvShowStore';
+
 const TvShowStore = useTvShowStore();
+const router = useRouter();
+
+const goToShowPage = (show) => {
+  TvShowStore.selectShow(show);
+  router.push({
+    name: 'show',
+  });
+};
 </script>
 
 <template>
@@ -9,7 +19,7 @@ const TvShowStore = useTvShowStore();
     <ShowCard
       v-for="(show, index) in TvShowStore.shows"
       :key="index"
-      @click="$router.push({ name: 'show', params: { showObject: show } })"
+      @click="goToShowPage(show)"
       :title="show.title"
       :showUrl="show.showUrl"
     />
