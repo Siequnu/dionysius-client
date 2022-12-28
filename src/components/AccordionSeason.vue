@@ -3,8 +3,8 @@ import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 
 const props = defineProps({
-  id: { type: String, required: true, default: crypto.randomUUID() },
-  sections: { type: Array, required: true },
+  id: { type: String, required: false, default: crypto.randomUUID() },
+  seasons: { type: Array, required: true },
 });
 </script>
 

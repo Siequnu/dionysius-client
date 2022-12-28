@@ -22,8 +22,8 @@ app.get('/', (request, response) => {
 app.post(`/getShowDetails`, async (request, response) => {
   const url = request.body.url;
 
-  const image = await getShowDetails(url);
-  response.json({ image: image });
+  const showData = await getShowDetails(url);
+  response.json(showData);
 });
 
 app.listen(port, () => {
@@ -31,21 +31,50 @@ app.listen(port, () => {
 });
 
 async function getShowDetails(url) {
-  let image = null;
+  let showData = {
+    imageUrl: null,
+    seasonCount: null,
+    seasons: [],
+  };
 
   await axios
     .get(url)
     .then((res) => {
       const $ = cheerio.load(res.data);
 
-      image = $('.section-watch .section-watch-overview img')
+      showData.imageUrl = $('.section-watch .section-watch-overview img')
         .first()
         .prop('src');
 
-      const seasons = $('.section-watch-season');
+      showData.seasonCount = $('.section-watch-overview .badge.badge-info')
+        .first()
+        .text()
+        .replace('Seasons: ', '');
 
-      seasons.each((index, element) => {
-        console.log($(element).find('.table-episodes').toArray());
+      $('.section-watch-season table tbody').each((index, element) => {
+        const seasonObject = {
+          season: showData.seasonCount - index,
+          episodes: [],
+        };
+        // Get episodes
+        $(element)
+          .find('tr')
+          .each((index, episodeElement) => {
+            seasonObject.episodes.push({
+              number: $(episodeElement).find('th').text(),
+              title: $(episodeElement).find('.epTitle').text(),
+              datePublished: $(episodeElement)
+                .find("*[itemprop = 'datePublished'] span")
+                .last()
+                .text(),
+              downloadLink: $(episodeElement).find('.downloadvid').data('href'),
+              episodeThumbnail: $(episodeElement)
+                .find('.watch-episode-thumb')
+                .prop('src'),
+            });
+          });
+
+        showData.seasons.push(seasonObject);
       });
 
       //.forEach((seasonDiv) =>
@@ -56,5 +85,5 @@ async function getShowDetails(url) {
       console.log(error);
     });
 
-  return image;
+  return showData;
 }
