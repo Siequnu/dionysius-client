@@ -34,14 +34,14 @@ onMounted(() => {
     <BounceLoader />
   </div>
 
-  <div v-if="!loading" class="flex flex-col gap-3">
-    <div class="flex gap-3 shadow-md rounded-lg m-3">
-      <img :src="apiData.imageUrl" class="rounded-lg" />
-      <div class="flex flex-col gap-3">
-        <h1 class="text-xl text-neutral-100 p-5">{{ show.name }}</h1>
+  <div v-if="!loading" class="flex gap-3">
+    <div class="flex flex-col gap-3 shadow-md rounded-lg m-3">
+      <img :src="apiData.imageUrl" class="rounded-lg h-80" />
+      <div class="flex flex-col gap-1">
+        <h1 class="text-xl text-neutral-100 p-5">{{ show.title }}</h1>
         <Chip :label="`${apiData.seasonCount} seasons`" />
       </div>
     </div>
-    <AccordionSeason :seasons="apiData.seasons" />
+    <div class="p-3"><AccordionSeason :seasons="apiData.seasons" /></div>
   </div>
 </template>
