@@ -14,7 +14,7 @@ const handleDownloadLink = (link) => {
 </script>
 
 <template>
-  <div class="w-[500px]">
+  <div class="w-[700px]">
     <Accordion :activeIndex="0">
       <AccordionTab
         v-for="(season, index) in props.seasons"
@@ -24,18 +24,18 @@ const handleDownloadLink = (link) => {
         <ul>
           <li v-for="episode in season.episodes" :key="episode.number">
             <div
-              class="flex gap-3 items-center p-3 hover:bg-neutral-700 transition-all justify-between rounded-md"
+              class="flex gap-3 items-center p-3 hover:bg-neutral-700 transition-all justify-start rounded-md"
             >
-              <div class="flex gap-3 items-center">
-                <span>{{ episode.number }}</span>
-                <span>{{ episode.title }}</span>
-              </div>
-              <img class="rounded-md" :src="episode.episodeThumbnail" />
               <Button
                 icon="pi pi-cloud-download"
                 class="p-button-rounded p-button-outlined"
                 @click="handleDownloadLink(episode.downloadLink)"
               />
+              <img class="rounded-md" :src="episode.episodeThumbnail" />
+              <div class="flex gap-3 items-center justify-start">
+                <span>{{ episode.number }}</span>
+                <span>{{ episode.title }}</span>
+              </div>
             </div>
           </li>
         </ul>
