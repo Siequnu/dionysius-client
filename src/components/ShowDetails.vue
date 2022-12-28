@@ -5,6 +5,13 @@ import AccordionSeason from '@/components/AccordionSeason.vue';
 import Chip from 'primevue/chip';
 import BounceLoader from '@/components/BounceLoader.vue';
 import Button from 'primevue/button';
+import { useTvShowStore } from '@/stores/TvShowStore';
+import { useRouter } from 'vue-router';
+import { useToast } from 'primevue/usetoast';
+
+const toast = useToast();
+const router = useRouter();
+const TvShowStore = useTvShowStore();
 
 const props = defineProps({
   show: { type: Object, required: true },
@@ -32,6 +39,17 @@ const getTotalEpisodeCount = () => {
   apiData.seasons.forEach((season) => (count += season.episodes.length));
   return count;
 };
+
+const handleRemoveShow = () => {
+  TvShowStore.removeShow({ showUrl: props.show.showUrl });
+  toast.add({
+    severity: 'success',
+    summary: 'Removed show',
+    detail: 'Show removed successfully',
+    life: 3000,
+  });
+  router.push('/');
+};
 </script>
 
 <template>
@@ -49,7 +67,11 @@ const getTotalEpisodeCount = () => {
           <Chip :label="`${getTotalEpisodeCount()} episodes`" />
         </div>
       </div>
-      <Button class="p-button-outlined p-button-secondary" label="Remove" />
+      <Button
+        class="p-button-outlined p-button-secondary"
+        label="Remove"
+        @click="handleRemoveShow"
+      />
     </div>
     <div class="p-3"><AccordionSeason :seasons="apiData.seasons" /></div>
   </div>

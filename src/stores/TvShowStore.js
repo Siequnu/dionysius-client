@@ -17,13 +17,18 @@ export const useTvShowStore = defineStore(
     function addShow(showObject) {
       shows.value.push(showObject);
     }
+    function removeShow(showObject) {
+      shows.value = shows.value.filter(
+        (show) => show.showUrl !== showObject.showUrl
+      );
+    }
 
     let currentlySelectedShow = ref(null);
     function selectShow(show) {
       currentlySelectedShow.value = show;
     }
 
-    return { shows, addShow, currentlySelectedShow, selectShow };
+    return { shows, addShow, removeShow, currentlySelectedShow, selectShow };
   },
   {
     persist: true,
