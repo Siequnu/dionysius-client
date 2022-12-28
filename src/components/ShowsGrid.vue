@@ -1,10 +1,11 @@
 <script setup>
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import ShowCard from '@/components/ShowCard.vue';
 import { useTvShowStore } from '@/stores/TvShowStore';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
 
 const TvShowStore = useTvShowStore();
 const router = useRouter();
@@ -17,6 +18,25 @@ const goToShowPage = (show) => {
 };
 
 const addNewShowDialogOpen = ref(false);
+
+const handleAddNewShow = () => {
+  TvShowStore.addShow({
+    title: newTvShowForm.name,
+    showUrl: newTvShowForm.url,
+  });
+
+  newTvShowForm = {
+    name: '',
+    url: '',
+  };
+
+  addNewShowDialogOpen.value = false;
+};
+
+let newTvShowForm = reactive({
+  name: '',
+  url: '',
+});
 </script>
 
 <template>
@@ -46,12 +66,19 @@ const addNewShowDialogOpen = ref(false);
       </div>
     </div>
 
-    <Dialog
-      header="Add new show"
-      footer="Footer"
-      v-model:visible="addNewShowDialogOpen"
-    >
-      Content
+    <Dialog header="Add new show" v-model:visible="addNewShowDialogOpen">
+      <div class="flex flex-col gap-3">
+        <InputText
+          type="text"
+          placeholder="Name"
+          v-model="newTvShowForm.name"
+        />
+        <InputText type="text" placeholder="URL" v-model="newTvShowForm.url" />
+      </div>
+      <template #footer>
+        <Button class="p-button-outlined p-button-secondary" label="Cancel" />
+        <Button label="Submit" autofocus @click="handleAddNewShow" />
+      </template>
     </Dialog>
   </div>
 </template>

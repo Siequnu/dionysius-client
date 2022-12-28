@@ -4,6 +4,7 @@ import axios from 'axios';
 import AccordionSeason from '@/components/AccordionSeason.vue';
 import Chip from 'primevue/chip';
 import BounceLoader from '@/components/BounceLoader.vue';
+import Button from 'primevue/button';
 
 const props = defineProps({
   show: { type: Object, required: true },
@@ -25,6 +26,12 @@ onMounted(() => {
     })
     .finally(() => (loading.value = false));
 });
+
+const getTotalEpisodeCount = () => {
+  let count = 0;
+  apiData.seasons.forEach((season) => (count += season.episodes.length));
+  return count;
+};
 </script>
 
 <template>
@@ -37,8 +44,12 @@ onMounted(() => {
       <img :src="apiData.imageUrl" class="rounded-lg h-80" />
       <div class="flex flex-col gap-1">
         <h1 class="text-xl text-neutral-100 p-5">{{ show.title }}</h1>
-        <Chip :label="`${apiData.seasonCount} seasons`" />
+        <div class="flex gap-3">
+          <Chip :label="`${apiData.seasonCount} seasons`" />
+          <Chip :label="`${getTotalEpisodeCount()} episodes`" />
+        </div>
       </div>
+      <Button class="p-button-outlined p-button-secondary" label="Remove" />
     </div>
     <div class="p-3"><AccordionSeason :seasons="apiData.seasons" /></div>
   </div>
