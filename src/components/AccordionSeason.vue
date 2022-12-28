@@ -18,7 +18,7 @@ const props = defineProps({
       <ul>
         <li v-for="episode in season.episodes" :key="episode.number">
           <div
-            class="flex gap-3 items-center p-3 hover:bg-neutral-700 transition-all justify-between"
+            class="flex gap-3 items-center p-3 hover:bg-neutral-700 transition-all justify-between rounded-md"
           >
             <div class="flex gap-3 items-center">
               <span>{{ episode.number }}</span>

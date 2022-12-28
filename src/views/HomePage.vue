@@ -1,5 +1,6 @@
 <script setup>
-import CardShow from '@/components/CardShow.vue';
+import ShowsGrid from '@/components/ShowsGrid.vue';
+import ShowDetails from '@/components/ShowDetails.vue';
 
 const show = {
   name: 'His Dark Materials',
@@ -9,8 +10,9 @@ const show = {
 
 <template>
   <main>
+    <ShowsGrid />
     <div class="flex justify-center items-center align-center">
-      <CardShow :show="show" />
+      <ShowDetails :show="show" />
     </div>
   </main>
 </template>
