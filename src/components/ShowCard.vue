@@ -29,7 +29,7 @@ onMounted(() => {
 
 <template>
   <div
-    class="rounded-md shadow-md cursor-pointer hover:scale-[1.02] transition-all hover:border border-neutral-500"
+    class="rounded-md shadow-md cursor-pointer hover:scale-[1.02] transition-all"
   >
     <BounceLoader v-if="!loaded" />
     <img v-if="loaded" class="rounded-md" :src="imageUrl" />
