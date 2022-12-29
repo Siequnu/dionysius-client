@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <div
     class="Navbar__top flex w-full justify-between items-center bg-neutral-800 p-5"
