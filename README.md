@@ -29,7 +29,12 @@ This project contains two main components, an `express.js` store in `api/`, and 
 <a href="https://code.visualstudio.com/" title="Visual Studio Code"><img src="https://github.com/get-icon/geticon/raw/master/icons/visual-studio-code.svg" alt="Visual Studio Code" width="21px" height="21px"></a>
 <a href="https://www.docker.com/" title="docker"><img src="https://github.com/get-icon/geticon/raw/master/icons/docker-icon.svg" alt="docker" width="21px" height="21px"></a>
 
-### Installation
+### Getting started
+
+Both the frontend and backend in this project are Dockerised. To start the project, simply type
+`docker compose -f "docker-compose.yml" up -d --build`
+
+### Getting into dev mode
 
 To start a local dev server:
 
