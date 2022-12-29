@@ -28,6 +28,9 @@ const responsiveOptions = ref([
 <template>
   <div class="flex justify-center align-center m-5">
     <div class="max-w-[1000px]">
+      <div class="flex gap-3 justify-center items-center">
+        <h2 class="text-white text-xl p-5 font-bold">Recent shows</h2>
+      </div>
       <Carousel
         :value="TvShowStore.shows"
         :numVisible="4"
