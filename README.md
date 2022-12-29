@@ -9,7 +9,7 @@ A client for managing movies, adding functionality like
 
 ## Structure
 
-This project contains two main components, an `express.js` store in `api/`, and a Vue3 PWA in `src/`
+This project contains two main components, an `express.js` backend in `api/`, and a Vue3 PWA in `src/`
 
 ### Tech stack
 
@@ -31,8 +31,10 @@ This project contains two main components, an `express.js` store in `api/`, and 
 
 ### Getting started
 
-Both the frontend and backend in this project are Dockerised. To start the project, simply type
-`docker compose -f "docker-compose.yml" up -d --build`
+Both the frontend and backend in this project are Dockerised. To start the project:
+
+1. In the root of the repository, copy `.env.sample` to `.env`, and add your favourite movie provider in the `VITE_SOURCE_BASE_URL` variable
+2. To start the frontend and backend using Docker compose, type `docker compose -f "docker-compose.yml" up -d --build`
 
 ### Getting into dev mode
 
