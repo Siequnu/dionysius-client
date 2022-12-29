@@ -7,7 +7,8 @@
         @click="$router.push('/')"
         class="pi pi-compass text-2xl font-bold"
       ></i>
-      <a @click="$router.push('/')">Shows</a>
+      <a @click="$router.push('/')">Recent</a>
+      <a @click="$router.push('/all')">All shows</a>
     </div>
   </div>
 </template>

@@ -5,6 +5,9 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 const cheerio = require('cheerio');
 
+const fetch = (...args) =>
+  import('node-fetch').then(({ default: fetch }) => fetch(...args));
+
 const app = express();
 const port = 3000;
 
@@ -20,22 +23,31 @@ app.get('/', (request, response) => {
 });
 
 app.post(`/getShowImageUrl`, async (request, response) => {
-  const url = request.body.url;
-
-  const imageUrl = await getShowImageUrl(url);
+  const imageUrl = await getShowImageUrl(request.body.url);
   response.json({ imageUrl: imageUrl });
 });
 
 app.post(`/getShowDetails`, async (request, response) => {
-  const url = request.body.url;
-
-  const showData = await getShowDetails(url);
+  const showData = await getShowDetails(request.body.url);
   response.json(showData);
+});
+
+app.post(`/getBase64Image`, async (request, response) => {
+  const base64 = await imageUrlToBase64(request.body.url);
+  response.json({ base64: base64 });
 });
 
 app.listen(port, () => {
   console.log(`Dionysus browser API started on ${port}`);
 });
+
+async function imageUrlToBase64(imageUrl) {
+  const imageUrlData = await fetch(imageUrl);
+  const buffer = await imageUrlData.arrayBuffer();
+  const stringifiedBuffer = Buffer.from(buffer).toString('base64');
+  const contentType = imageUrlData.headers.get('content-type');
+  return `data:image/${contentType};base64,${stringifiedBuffer}`;
+}
 
 async function getShowImageUrl(url) {
   let imageUrl = null;
@@ -94,10 +106,6 @@ async function getShowDetails(url) {
 
         showData.seasons.push(seasonObject);
       });
-
-      //.forEach((seasonDiv) =>
-      //  console.log($(seasonDiv).find('.t14'))
-      //);
     })
     .catch((error) => {
       console.log(error);

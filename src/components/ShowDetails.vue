@@ -2,12 +2,12 @@
 import { onMounted, reactive, ref } from 'vue';
 import axios from 'axios';
 import AccordionSeason from '@/components/AccordionSeason.vue';
-import Chip from 'primevue/chip';
 import BounceLoader from '@/components/BounceLoader.vue';
+import Chip from 'primevue/chip';
 import Button from 'primevue/button';
+import { useToast } from 'primevue/usetoast';
 import { useTvShowStore } from '@/stores/TvShowStore';
 import { useRouter } from 'vue-router';
-import { useToast } from 'primevue/usetoast';
 
 const toast = useToast();
 const router = useRouter();
@@ -21,12 +21,17 @@ let loading = ref(true);
 let apiData = reactive({});
 
 onMounted(() => {
+  if (TvShowStore.getShowData(props.show.showUrl)) {
+    loading.value = false;
+  }
+
   axios
     .post(`http://localhost:3000/getShowDetails`, {
       url: props.show.showUrl,
     })
     .then((response) => {
       apiData = response.data;
+      TvShowStore.setShowData(props.show.showUrl, apiData);
     })
     .catch((error) => {
       console.log(error);
@@ -36,7 +41,9 @@ onMounted(() => {
 
 const getTotalEpisodeCount = () => {
   let count = 0;
-  apiData.seasons.forEach((season) => (count += season.episodes.length));
+  TvShowStore.getShowData(props.show.showUrl).seasons.forEach(
+    (season) => (count += season.episodes.length)
+  );
   return count;
 };
 
@@ -59,11 +66,18 @@ const handleRemoveShow = () => {
 
   <div v-if="!loading" class="flex gap-3">
     <div class="flex flex-col gap-3 shadow-md rounded-lg m-3">
-      <img :src="apiData.imageUrl" class="rounded-lg h-80" />
+      <img
+        :src="TvShowStore.getShowData(props.show.showUrl)?.imageUrl"
+        class="rounded-lg h-80"
+      />
       <div class="flex flex-col gap-1">
         <h1 class="text-xl text-neutral-100 p-5">{{ show.title }}</h1>
         <div class="flex gap-3">
-          <Chip :label="`${apiData.seasonCount} seasons`" />
+          <Chip
+            :label="`${
+              TvShowStore.getShowData(props.show.showUrl)?.seasonCount
+            } seasons`"
+          />
           <Chip :label="`${getTotalEpisodeCount()} episodes`" />
         </div>
       </div>
@@ -73,6 +87,10 @@ const handleRemoveShow = () => {
         @click="handleRemoveShow"
       />
     </div>
-    <div class="p-3"><AccordionSeason :seasons="apiData.seasons" /></div>
+    <div class="p-3">
+      <AccordionSeason
+        :seasons="TvShowStore.getShowData(props.show.showUrl).seasons"
+      />
+    </div>
   </div>
 </template>

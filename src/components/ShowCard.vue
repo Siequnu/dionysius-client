@@ -2,6 +2,9 @@
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import BounceLoader from '@/components/BounceLoader.vue';
+import { useTvShowStore } from '@/stores/TvShowStore';
+
+const TvShowStore = useTvShowStore();
 
 const props = defineProps({
   title: { type: String, required: true },
@@ -10,7 +13,7 @@ const props = defineProps({
 
 let imageUrl = ref(null);
 
-const loaded = ref(false);
+const loading = ref(true);
 
 onMounted(() => {
   axios
@@ -19,7 +22,8 @@ onMounted(() => {
     })
     .then((response) => {
       imageUrl.value = response.data.imageUrl;
-      loaded.value = true;
+      TvShowStore.setShowThumbnail(props.showUrl, imageUrl.value);
+      loading.value = false;
     })
     .catch((error) => {
       console.log(error);
@@ -31,7 +35,7 @@ onMounted(() => {
   <div
     class="rounded-md shadow-md cursor-pointer hover:scale-[1.02] transition-all"
   >
-    <BounceLoader v-if="!loaded" />
-    <img v-if="loaded" class="rounded-md" :src="imageUrl" />
+    <BounceLoader v-if="loading" />
+    <img v-if="!loading" class="rounded-md" :src="imageUrl" />
   </div>
 </template>

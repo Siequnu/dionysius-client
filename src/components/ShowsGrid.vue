@@ -1,14 +1,19 @@
 <script setup>
-import { useRouter } from 'vue-router';
 import { ref, reactive } from 'vue';
-import ShowCard from '@/components/ShowCard.vue';
+import { useRouter } from 'vue-router';
 import { useTvShowStore } from '@/stores/TvShowStore';
+
+import { useToast } from 'primevue/usetoast';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+import ShowCard from '@/components/ShowCard.vue';
 
 const TvShowStore = useTvShowStore();
 const router = useRouter();
+const toast = useToast();
+const addNewShowDialogOpen = ref(false);
+const filterText = ref('');
 
 const goToShowPage = (show) => {
   TvShowStore.selectShow(show);
@@ -17,9 +22,25 @@ const goToShowPage = (show) => {
   });
 };
 
-const addNewShowDialogOpen = ref(false);
+let newTvShowForm = reactive({
+  name: '',
+  url: '',
+});
 
 const handleAddNewShow = () => {
+  if (
+    newTvShowForm.name.trim().length == 0 ||
+    newTvShowForm.url.trim().length == 0
+  ) {
+    toast.add({
+      severity: 'info',
+      summary: 'Please add show details',
+      detail: 'Fill out the name and URL.',
+      life: 3000,
+    });
+    return;
+  }
+
   TvShowStore.addShow({
     title: newTvShowForm.name,
     showUrl: newTvShowForm.url,
@@ -32,11 +53,6 @@ const handleAddNewShow = () => {
 
   addNewShowDialogOpen.value = false;
 };
-
-let newTvShowForm = reactive({
-  name: '',
-  url: '',
-});
 </script>
 
 <template>
@@ -55,9 +71,18 @@ let newTvShowForm = reactive({
           ></Button>
         </div>
       </div>
+      <div class="flex gap-3 justify-center items-center">
+        <InputText
+          type="text"
+          placeholder="Filter by name"
+          v-model="filterText"
+        />
+      </div>
       <div class="flex gap-3 flex-wrap items-center justify-center">
         <ShowCard
-          v-for="(show, index) in TvShowStore.shows"
+          v-for="(show, index) in TvShowStore.shows.filter((showObject) =>
+            showObject.title.toLowerCase().includes(filterText.toLowerCase())
+          )"
           :key="index"
           @click="goToShowPage(show)"
           :title="show.title"
@@ -66,7 +91,11 @@ let newTvShowForm = reactive({
       </div>
     </div>
 
-    <Dialog header="Add new show" v-model:visible="addNewShowDialogOpen">
+    <Dialog
+      header="Add new show"
+      v-model:visible="addNewShowDialogOpen"
+      :dismissable-mask="true"
+    >
       <div class="flex flex-col gap-3">
         <InputText
           type="text"
