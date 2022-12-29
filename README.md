@@ -35,6 +35,7 @@ Both the frontend and backend in this project are Dockerised. To start the proje
 
 1. In the root of the repository, copy `.env.sample` to `.env`, and add your favourite movie provider in the `VITE_SOURCE_BASE_URL` variable
 2. To start the frontend and backend using Docker compose, type `docker compose -f "docker-compose.yml" up -d --build`
+3. The web app is now exposed on port 8080, and the API on port 3000.
 
 ### Getting into dev mode
 
