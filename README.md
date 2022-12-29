@@ -29,7 +29,7 @@ This project contains two main components, an `express.js` backend in `api/`, an
 <a href="https://code.visualstudio.com/" title="Visual Studio Code"><img src="https://github.com/get-icon/geticon/raw/master/icons/visual-studio-code.svg" alt="Visual Studio Code" width="21px" height="21px"></a>
 <a href="https://www.docker.com/" title="docker"><img src="https://github.com/get-icon/geticon/raw/master/icons/docker-icon.svg" alt="docker" width="21px" height="21px"></a>
 
-### Getting started
+### Running the project
 
 Both the frontend and backend in this project are Dockerised. To start the project:
 
@@ -37,7 +37,7 @@ Both the frontend and backend in this project are Dockerised. To start the proje
 2. To start the frontend and backend using Docker compose, type `docker compose -f "docker-compose.yml" up -d --build`
 3. The web app is now exposed on port 8080, and the API on port 3000.
 
-### Getting into dev mode
+### Getting your hands dirty
 
 To start a local dev server:
 
