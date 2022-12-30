@@ -1,6 +1,5 @@
 <script setup>
 import { ref, reactive } from 'vue';
-import { useRouter } from 'vue-router';
 import { useTvShowStore } from '@/stores/TvShowStore';
 
 import { useToast } from 'primevue/usetoast';
@@ -10,17 +9,9 @@ import InputText from 'primevue/inputtext';
 import ShowCard from '@/components/ShowCard.vue';
 
 const TvShowStore = useTvShowStore();
-const router = useRouter();
 const toast = useToast();
 const addNewShowDialogOpen = ref(false);
 const filterText = ref('');
-
-const goToShowPage = (show) => {
-  TvShowStore.selectShow(show);
-  router.push({
-    name: 'show',
-  });
-};
 
 let newTvShowForm = reactive({
   name: '',
@@ -84,7 +75,6 @@ const handleAddNewShow = () => {
             showObject.title.toLowerCase().includes(filterText.toLowerCase())
           )"
           :key="index"
-          @click="goToShowPage(show)"
           :title="show.title"
           :showUrl="show.showUrl"
         />

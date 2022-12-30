@@ -1,10 +1,12 @@
 <script setup>
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 import BounceLoader from '@/components/BounceLoader.vue';
 import { useTvShowStore } from '@/stores/TvShowStore';
 
 const TvShowStore = useTvShowStore();
+const router = useRouter();
 
 const props = defineProps({
   title: { type: String, required: true },
@@ -14,6 +16,13 @@ const props = defineProps({
 let imageUrl = ref(null);
 
 const loading = ref(true);
+
+const goToShowPage = () => {
+  TvShowStore.selectShow({ title: props.title, showUrl: props.showUrl });
+  router.push({
+    name: 'show',
+  });
+};
 
 onMounted(() => {
   axios
@@ -34,6 +43,7 @@ onMounted(() => {
 <template>
   <div
     class="rounded-md shadow-md cursor-pointer hover:scale-[1.02] transition-all"
+    @click="goToShowPage()"
   >
     <BounceLoader v-if="loading" />
     <img v-if="!loading" class="rounded-md" :src="imageUrl" />
