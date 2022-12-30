@@ -82,8 +82,13 @@ const handleRemoveShow = () => {
         </div>
       </div>
       <Button
-        class="p-button-outlined p-button-secondary"
-        label="Remove"
+        class="p-button p-button-success"
+        label="Mark all as seen"
+        @click="handleMarkShowAsSeen"
+      />
+      <Button
+        class="p-button-outlined p-button-danger"
+        label="Remove show"
         @click="handleRemoveShow"
       />
     </div>
