@@ -4,6 +4,7 @@ import { RouterView } from 'vue-router';
 
 import NavbarMain from '@/components/NavbarMain.vue';
 
+import { useTvShowStore } from '@/stores/TVShowStore';
 import { useSettingsStore } from '@/stores/SettingsStore';
 import config from '../../config.mjs';
 
@@ -16,6 +17,10 @@ const toast = useToast();
 const settingsStore = useSettingsStore();
 settingsStore.settings = { ...settingsStore.settings, ...config };
 settingsStore.settings.api.apiBaseUrl = `${settingsStore.settings.api.baseUrl}:${settingsStore.settings.api.port}`;
+
+const tvShowStore = useTvShowStore();
+console.log(tvShowStore);
+tvShowStore.setupStore();
 
 onMounted(() => {
   axios

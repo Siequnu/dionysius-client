@@ -8,7 +8,7 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import ShowCard from '@/components/ShowCard.vue';
 
-const TvShowStore = useTvShowStore();
+const tvShowStore = useTvShowStore();
 const toast = useToast();
 const addNewShowDialogOpen = ref(false);
 const filterText = ref('');
@@ -32,9 +32,9 @@ const handleAddNewShow = () => {
     return;
   }
 
-  TvShowStore.addShow({
+  tvShowStore.addShow({
     title: newTvShowForm.name,
-    showUrl: newTvShowForm.url,
+    url: newTvShowForm.url,
   });
 
   newTvShowForm = {
@@ -71,12 +71,13 @@ const handleAddNewShow = () => {
       </div>
       <div class="flex gap-3 flex-wrap items-center justify-center">
         <ShowCard
-          v-for="(show, index) in TvShowStore.shows.filter((showObject) =>
+          v-for="(show, index) in tvShowStore.shows.filter((showObject) =>
             showObject.title.toLowerCase().includes(filterText.toLowerCase())
           )"
           :key="index"
+          :showObject="showObject"
           :title="show.title"
-          :showUrl="show.showUrl"
+          :url="show.url"
         />
       </div>
     </div>

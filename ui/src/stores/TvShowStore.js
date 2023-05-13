@@ -1,76 +1,61 @@
 import axios from 'axios';
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
 
-export const useTvShowStore = defineStore(
-  'TvShowStore',
-  () => {
-    /* Store variables */
-    let shows = ref([]);
-    let currentlySelectedShow = ref(null);
+import { useSettingsStore } from '@/stores/SettingsStore.js';
 
-    /* Show management */
-    function addShow(showObject) {
-      shows.value.push(showObject);
-    }
-    function removeShow(showObject) {
-      shows.value = shows.value.filter(
-        (show) => show.showUrl !== showObject.showUrl
+export const useTvShowStore = defineStore('TvShowStore', {
+  state: () => {
+    return {
+      settingsStore: useSettingsStore(),
+
+      shows: [],
+      currentlySelectedShow: null,
+    };
+  },
+  actions: {
+    setupStore() {
+      console.log('Setting up TV show store...');
+      this.getAllShows();
+    },
+    async getAllShows() {
+      await axios
+        .get(`${this.settingsStore.settings.api.apiBaseUrl}/manage/shows/get`)
+        .then((response) => response.data)
+        .then((data) => {
+          console.log('Got all shows', data.shows);
+          this.shows = data.shows;
+        });
+    },
+
+    addShow(showObject) {
+      axios.post(
+        `${this.settingsStore.settings.api.apiBaseUrl}/manage/show/create`,
+        {
+          ...showObject,
+        }
       );
-    }
+    },
+    removeShow(showObject) {
+      this.shows = this.shows.filter((show) => show.url !== showObject.url);
+    },
 
-    /* Episodes cache */
-    function setShowData(showUrl, showData) {
-      shows.value.find((showObject) => showObject.showUrl == showUrl).showData =
-        showData;
-    }
-    function getShowData(showUrl) {
-      return shows.value.find((showObject) => showObject.showUrl == showUrl)
-        ?.showData;
-    }
-
-    /* Thumbnail cache */
-    function getShowThumbnail(showUrl) {
-      return shows.value.find((showObject) => showObject.showUrl == showUrl)
-        ?.thumbnailBase64;
-    }
-    async function setShowThumbnail(showUrl) {
+    async setShowThumbnail(url) {
       axios
-        .post(`http://localhost:3000/getBase64Image`, {
-          url: showUrl,
+        .post(`${this.settingsStore.settings.api.apiBaseUrl}/getBase64Image`, {
+          url: url,
         })
         .then((response) => {
-          shows.value.find(
-            (showObject) => showObject.showUrl == showUrl
+          this.shows.find(
+            (showObject) => showObject.url == url
           ).thumbnailBase64 = response.data.base64;
         })
         .catch((error) => {
           console.log(error);
         });
-    }
+    },
 
-    /* State  */
-    function selectShow(show) {
-      currentlySelectedShow.value = show;
-    }
-
-    return {
-      shows,
-      currentlySelectedShow,
-
-      addShow,
-      removeShow,
-
-      setShowData,
-      getShowData,
-
-      getShowThumbnail,
-      setShowThumbnail,
-
-      selectShow,
-    };
+    selectShow(show) {
+      this.currentlySelectedShow = show;
+    },
   },
-  {
-    persist: true,
-  }
-);
+});

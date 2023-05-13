@@ -12,6 +12,7 @@ import config from "../config.mjs";
 import { setupBrowser } from "./browser/browser.js";
 
 import showRoutes from "./routes/showRoutes.js";
+import manageRoutes from "./routes/manageRoutes.js";
 
 console.log("API: starting up...");
 
@@ -56,6 +57,7 @@ app.use(_json());
 app.use(urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
 app.use("/api-docs", serve, setup(swaggerSpec));
 app.use("/", showRoutes);
+app.use("/manage", manageRoutes);
 app.get("/health", (request, response) => {
   response.json({ message: "API server is running", running: true });
 });

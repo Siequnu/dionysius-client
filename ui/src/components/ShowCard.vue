@@ -8,33 +8,38 @@ import { useTvShowStore } from '@/stores/TvShowStore';
 import { useSettingsStore } from '@/stores/SettingsStore';
 
 const settingsStore = useSettingsStore();
-const TvShowStore = useTvShowStore();
+const tvShowStore = useTvShowStore();
 const router = useRouter();
 
 const props = defineProps({
   title: { type: String, required: true },
-  showUrl: { type: String, required: true },
+  url: { type: String, required: true },
+  showObject: { type: String, required: true },
 });
 
 let imageUrl = ref(null);
 
 const loading = ref(true);
 
-const goToShowPage = () => {
-  TvShowStore.selectShow({ title: props.title, showUrl: props.showUrl });
+function goToShowPage() {
+  tvShowStore.selectShow({
+    title: props.title,
+    url: props.url,
+    ...props.showObject,
+  });
   router.push({
     name: 'show',
   });
-};
+}
 
 onMounted(() => {
   axios
     .post(`${settingsStore.settings.api.apiBaseUrl}/getShowImageUrl`, {
-      url: props.showUrl,
+      url: props.url,
     })
     .then((response) => {
       imageUrl.value = response.data.imageUrl;
-      TvShowStore.setShowThumbnail(props.showUrl, imageUrl.value);
+      tvShowStore.setShowThumbnail(props.url, imageUrl.value);
       loading.value = false;
     })
     .catch((error) => {
@@ -46,7 +51,7 @@ onMounted(() => {
 <template>
   <div
     class="rounded-md shadow-md cursor-pointer hover:scale-[1.02] transition-all"
-    @click="goToShowPage()"
+    @click="goToShowPage"
   >
     <BounceLoader v-if="loading" />
     <img v-if="!loading" class="rounded-md" :src="imageUrl" />

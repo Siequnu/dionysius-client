@@ -8,22 +8,12 @@ const BrowserSchema = new Schema({
 });
 
 const ShowSchema = new Schema({
-  name: String,
+  title: String,
   url: String,
-});
-
-const EpisodeSchema = new Schema({
-  name: String,
   thumbnail: String,
-  watched: String,
-  show: {
-    type: _Schema.Types.ObjectId,
-    ref: "Show",
-    required: true,
-  },
+  details: Object,
 });
 
 // Export the models
 export const Browser = model("Browser", BrowserSchema);
 export const Show = model("Show", ShowSchema);
-export const Episode = model("Episode", EpisodeSchema);

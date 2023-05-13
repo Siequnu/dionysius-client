@@ -14,7 +14,7 @@ import { useSettingsStore } from '@/stores/SettingsStore';
 const toast = useToast();
 const router = useRouter();
 
-const TvShowStore = useTvShowStore();
+const tvShowStore = useTvShowStore();
 const settingsStore = useSettingsStore();
 
 const props = defineProps({
@@ -25,17 +25,13 @@ let loading = ref(true);
 let apiData = reactive({});
 
 onMounted(() => {
-  if (TvShowStore.getShowData(props.show.showUrl)) {
-    loading.value = false;
-  }
-
   axios
     .post(`${settingsStore.settings.api.apiBaseUrl}/getShowDetails`, {
-      url: props.show.showUrl,
+      id: props.show.id,
     })
     .then((response) => {
+      console.log(response.data);
       apiData = response.data;
-      TvShowStore.setShowData(props.show.showUrl, apiData);
     })
     .catch((error) => {
       console.log(error);
@@ -43,24 +39,18 @@ onMounted(() => {
     .finally(() => (loading.value = false));
 });
 
-const getTotalEpisodeCount = () => {
+const getTotalEpisodeCount = (seasons) => {
   let count = 0;
-  TvShowStore.getShowData(props.show.showUrl).seasons.forEach(
-    (season) => (count += season.episodes.length)
-  );
+  seasons.forEach((season) => (count += season.episodes.length));
   return count;
 };
 
-const handleRemoveShow = () => {
-  TvShowStore.removeShow({ showUrl: props.show.showUrl });
-  toast.add({
-    severity: 'success',
-    summary: 'Removed show',
-    detail: 'Show removed successfully',
-    life: 3000,
+async function handleRemoveShow() {
+  axios.post(`${settingsStore.settings.api.apiBaseUrl}/manage/show/delete`, {
+    id: tvShowStore.currentlySelectedShow._id,
   });
   router.push('/');
-};
+}
 </script>
 
 <template>
@@ -70,19 +60,12 @@ const handleRemoveShow = () => {
 
   <div v-if="!loading" class="flex gap-3">
     <div class="flex flex-col gap-3 shadow-md rounded-lg m-3">
-      <img
-        :src="TvShowStore.getShowData(props.show.showUrl)?.imageUrl"
-        class="rounded-lg h-80"
-      />
+      <img :src="apiData.imageUrl" class="rounded-lg h-80" />
       <div class="flex flex-col gap-1">
-        <h1 class="text-xl text-neutral-100 p-5">{{ show.title }}</h1>
+        <h1 class="text-xl text-neutral-100 p-5">{{ props.show.title }}</h1>
         <div class="flex gap-3">
-          <Chip
-            :label="`${
-              TvShowStore.getShowData(props.show.showUrl)?.seasonCount
-            } seasons`"
-          />
-          <Chip :label="`${getTotalEpisodeCount()} episodes`" />
+          <Chip :label="`${apiData.seasonCount} seasons`" />
+          <Chip :label="`${getTotalEpisodeCount(apiData.seasons)} episodes`" />
         </div>
       </div>
       <Button
@@ -97,9 +80,7 @@ const handleRemoveShow = () => {
       />
     </div>
     <div class="p-3">
-      <AccordionSeason
-        :seasons="TvShowStore.getShowData(props.show.showUrl).seasons"
-      />
+      <AccordionSeason :seasons="apiData.seasons" />
     </div>
   </div>
 </template>

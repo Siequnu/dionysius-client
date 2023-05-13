@@ -5,8 +5,9 @@ const fetch = (...args) =>
 
 export async function getShowImageUrl(req, res) {
   try {
+    console.log(`API: getting show image url for ${req.body.url}`);
     const imageUrl = await findShowImageUrl(req.body.url);
-
+    console.log(imageUrl);
     res.json({ imageUrl });
   } catch (err) {
     res.json({ error: err.message });
