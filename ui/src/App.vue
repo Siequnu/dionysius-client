@@ -9,11 +9,12 @@ import axios from 'axios';
 
 const toast = useToast();
 const clientBaseUrl = import.meta.env.VITE_SOURCE_BASE_URL;
+const apiServerUrl = import.meta.env.VITE_API_SERVER_URL;
 const settingsStore = useSettingsStore();
 
 onMounted(() => {
   axios
-    .get('http://localhost:3000/')
+    .get(`${apiServerUrl}/health`)
     .then(() => {
       console.log('App: frontend found server');
     })
@@ -29,6 +30,7 @@ onMounted(() => {
     });
 
   settingsStore.setSourceBaseUrl(clientBaseUrl);
+  settingsStore.setApiServerUrl(apiServerUrl);
 });
 </script>
 

@@ -1,7 +1,13 @@
-FROM node:lts-alpine
+FROM node:bullseye-slim
+
 WORKDIR /app
+
 COPY package*.json ./
+
 RUN npm install
+
 COPY . .
+
 EXPOSE 3000
-CMD ["node", "api/server.js"]
+
+CMD [ "node", "app.js" ]

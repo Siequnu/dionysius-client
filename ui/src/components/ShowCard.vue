@@ -3,8 +3,11 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import BounceLoader from '@/components/BounceLoader.vue';
-import { useTvShowStore } from '@/stores/TvShowStore';
 
+import { useTvShowStore } from '@/stores/TvShowStore';
+import { useSettingsStore } from '@/stores/SettingsStore';
+
+const SettingsStore = useSettingsStore();
 const TvShowStore = useTvShowStore();
 const router = useRouter();
 
@@ -26,7 +29,7 @@ const goToShowPage = () => {
 
 onMounted(() => {
   axios
-    .post(`http://localhost:3000/getShowImageUrl`, {
+    .post(`${SettingsStore.apiServerUrl}/getShowImageUrl`, {
       url: props.showUrl,
     })
     .then((response) => {
