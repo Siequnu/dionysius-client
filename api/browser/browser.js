@@ -2,7 +2,19 @@ import puppeteer from "puppeteer";
 import config from "../../config.mjs";
 import { Browser } from "../models/models.js";
 
-export const browser = await puppeteer.launch({ headless: "new" });
+export const browser = await puppeteer.launch({
+  headless: "new",
+  //executablePath: "/usr/bin/google-chrome-stable",
+  args: [
+    "--disable-gpu",
+    "--disable-dev-shm-usage",
+    "--disable-setuid-sandbox",
+    "--no-first-run",
+    "--no-sandbox",
+    "--no-zygote",
+    "--single-process",
+  ],
+});
 
 let cookies = null;
 

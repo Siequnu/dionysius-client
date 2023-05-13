@@ -1,12 +1,19 @@
 FROM node:lts-alpine as build-stage
+
 WORKDIR /app
-COPY package*.json ./
+COPY ./config.mjs ./
+
+WORKDIR /app/ui
+COPY ./ui/package*.json .
 RUN npm install
-COPY . .
+
+COPY ./ui/ .
+
 RUN npm run build
 
-# production stage
 FROM nginx:stable-alpine as production-stage
-COPY --from=build-stage /app/dist /usr/share/nginx/html
+COPY --from=build-stage /app/ui/dist /usr/share/nginx/html
+
 EXPOSE 80
+
 CMD ["nginx", "-g", "daemon off;"]

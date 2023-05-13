@@ -13,6 +13,8 @@ import { setupBrowser } from "./browser/browser.js";
 
 import showRoutes from "./routes/showRoutes.js";
 
+console.log("API: starting up...");
+
 // Connect to MongoDB
 const { json: _json, urlencoded } = pkg;
 console.log("API: connecting to MongoDB...");
