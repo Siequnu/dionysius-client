@@ -1,4 +1,5 @@
 import { newPage } from "../browser/browser.js";
+import { Show } from "../models/models.js";
 
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
@@ -30,14 +31,23 @@ export async function findShowImageUrl(url) {
 
 export async function getShowDetails(req, res) {
   try {
-    const showData = await getShowDetailsHelper(req.body.url);
-    res.json(showData);
+    console.log("Show controller: got request for", req.body);
+    const show = await Show.findById(req.body.id);
+
+    const showData = await getShowDetailsHelper(show.url);
+
+    const updatedShow = await Show.findOneAndUpdate(
+      { _id: req.body.id },
+      { lastUpdated: new Date(), details: showData },
+      { new: true }
+    );
+    res.json(updatedShow);
   } catch (err) {
     res.json({ error: err });
     console.error("Error fetching show details:", err);
   }
 }
-async function getShowDetailsHelper(url) {
+export async function getShowDetailsHelper(url) {
   const page = await newPage();
 
   await page.goto(url);
@@ -50,7 +60,7 @@ async function getShowDetailsHelper(url) {
 
   try {
     showData.imageUrl = await findShowImageUrl(url); // Assuming getShowImageUrl is defined elsewhere
-    console.log(showData.imageUrl);
+
     const seasonCountElement = await page.$(
       ".section-watch-overview .badge.badge-info"
     );

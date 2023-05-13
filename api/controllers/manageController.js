@@ -1,4 +1,5 @@
 import { Show } from "../models/models.js";
+import { getShowDetailsHelper } from "./showController.js";
 
 export async function getAllShows(req, res) {
   try {
@@ -21,7 +22,8 @@ export async function getShowById(req, res) {
 }
 export async function createShow(req, res) {
   try {
-    const show = new Show(req.body);
+    const showDetails = await getShowDetailsHelper(req.body.url);
+    const show = new Show({ ...req.body, details: showDetails });
     await show.save();
     res.json(show);
   } catch (err) {

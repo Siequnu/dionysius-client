@@ -17,7 +17,7 @@ const router = createRouter({
       component: ShowsGrid,
     },
     {
-      path: '/show',
+      path: '/show/:id',
       name: 'show',
       component: ShowPage,
     },

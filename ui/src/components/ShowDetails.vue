@@ -17,17 +17,16 @@ const router = useRouter();
 const tvShowStore = useTvShowStore();
 const settingsStore = useSettingsStore();
 
-const props = defineProps({
-  show: { type: Object, required: true },
-});
+const props = defineProps({ showId: String });
 
 let loading = ref(true);
 let apiData = reactive({});
 
 onMounted(() => {
+  console.log('Getting show details for', props.showId);
   axios
     .post(`${settingsStore.settings.api.apiBaseUrl}/getShowDetails`, {
-      id: props.show.id,
+      id: props.showId,
     })
     .then((response) => {
       console.log(response.data);
@@ -60,12 +59,14 @@ async function handleRemoveShow() {
 
   <div v-if="!loading" class="flex gap-3">
     <div class="flex flex-col gap-3 shadow-md rounded-lg m-3">
-      <img :src="apiData.imageUrl" class="rounded-lg h-80" />
+      <img :src="apiData.details.imageUrl" class="rounded-lg h-80" />
       <div class="flex flex-col gap-1">
-        <h1 class="text-xl text-neutral-100 p-5">{{ props.show.title }}</h1>
+        <h1 class="text-xl text-neutral-100 p-5">{{ apiData.title }}</h1>
         <div class="flex gap-3">
-          <Chip :label="`${apiData.seasonCount} seasons`" />
-          <Chip :label="`${getTotalEpisodeCount(apiData.seasons)} episodes`" />
+          <Chip :label="`${apiData.details.seasonCount} seasons`" />
+          <Chip
+            :label="`${getTotalEpisodeCount(apiData.details.seasons)} episodes`"
+          />
         </div>
       </div>
       <Button
@@ -80,7 +81,7 @@ async function handleRemoveShow() {
       />
     </div>
     <div class="p-3">
-      <AccordionSeason :seasons="apiData.seasons" />
+      <AccordionSeason :seasons="apiData.details.seasons" />
     </div>
   </div>
 </template>

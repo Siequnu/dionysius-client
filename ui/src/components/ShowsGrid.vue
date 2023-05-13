@@ -71,13 +71,11 @@ const handleAddNewShow = () => {
       </div>
       <div class="flex gap-3 flex-wrap items-center justify-center">
         <ShowCard
-          v-for="(show, index) in tvShowStore.shows.filter((showObject) =>
+          v-for="(showObject, index) in tvShowStore.shows.filter((showObject) =>
             showObject.title.toLowerCase().includes(filterText.toLowerCase())
           )"
           :key="index"
           :showObject="showObject"
-          :title="show.title"
-          :url="show.url"
         />
       </div>
     </div>

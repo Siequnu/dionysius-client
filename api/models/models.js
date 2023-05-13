@@ -10,7 +10,7 @@ const BrowserSchema = new Schema({
 const ShowSchema = new Schema({
   title: String,
   url: String,
-  thumbnail: String,
+  lastUpdated: Date,
   details: Object,
 });
 
