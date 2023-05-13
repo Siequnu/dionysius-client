@@ -30,7 +30,7 @@ onMounted(() => {
   }
 
   axios
-    .post(`${settingsStore.settings.apiBaseUrl}/getShowDetails`, {
+    .post(`${settingsStore.settings.api.apiBaseUrl}/getShowDetails`, {
       url: props.show.showUrl,
     })
     .then((response) => {

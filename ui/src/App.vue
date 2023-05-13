@@ -13,7 +13,6 @@ import Toast from 'primevue/toast';
 import axios from 'axios';
 
 const toast = useToast();
-console.log(config);
 const settingsStore = useSettingsStore();
 settingsStore.settings = { ...settingsStore.settings, ...config };
 settingsStore.settings.api.apiBaseUrl = `${settingsStore.settings.api.baseUrl}:${settingsStore.settings.api.port}`;
