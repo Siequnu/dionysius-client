@@ -1,6 +1,3 @@
-import puppeteer from "puppeteer";
-
-import { config } from "../config.js";
 import { newPage } from "../browser/browser.js";
 
 const fetch = (...args) =>

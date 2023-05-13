@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { config } from "../config.js";
+import config from "../../config.mjs";
 import { Browser } from "../models/models.js";
 
 export const browser = await puppeteer.launch({ headless: "new" });

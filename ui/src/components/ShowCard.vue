@@ -7,7 +7,7 @@ import BounceLoader from '@/components/BounceLoader.vue';
 import { useTvShowStore } from '@/stores/TvShowStore';
 import { useSettingsStore } from '@/stores/SettingsStore';
 
-const SettingsStore = useSettingsStore();
+const settingsStore = useSettingsStore();
 const TvShowStore = useTvShowStore();
 const router = useRouter();
 
@@ -29,7 +29,7 @@ const goToShowPage = () => {
 
 onMounted(() => {
   axios
-    .post(`${SettingsStore.apiServerUrl}/getShowImageUrl`, {
+    .post(`${settingsStore.settings.api.apiBaseUrl}/getShowImageUrl`, {
       url: props.showUrl,
     })
     .then((response) => {

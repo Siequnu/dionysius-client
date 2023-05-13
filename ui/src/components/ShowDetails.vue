@@ -6,12 +6,16 @@ import BounceLoader from '@/components/BounceLoader.vue';
 import Chip from 'primevue/chip';
 import Button from 'primevue/button';
 import { useToast } from 'primevue/usetoast';
-import { useTvShowStore } from '@/stores/TvShowStore';
 import { useRouter } from 'vue-router';
+
+import { useTvShowStore } from '@/stores/TvShowStore';
+import { useSettingsStore } from '@/stores/SettingsStore';
 
 const toast = useToast();
 const router = useRouter();
+
 const TvShowStore = useTvShowStore();
+const settingsStore = useSettingsStore();
 
 const props = defineProps({
   show: { type: Object, required: true },
@@ -26,7 +30,7 @@ onMounted(() => {
   }
 
   axios
-    .post(`http://localhost:3000/getShowDetails`, {
+    .post(`${settingsStore.settings.apiBaseUrl}/getShowDetails`, {
       url: props.show.showUrl,
     })
     .then((response) => {

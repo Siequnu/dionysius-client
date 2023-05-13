@@ -1,20 +1,26 @@
 <script setup>
 import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
+
 import NavbarMain from '@/components/NavbarMain.vue';
+
 import { useSettingsStore } from '@/stores/SettingsStore';
+import config from '../../config.mjs';
+
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
+
 import axios from 'axios';
 
 const toast = useToast();
-const clientBaseUrl = import.meta.env.VITE_SOURCE_BASE_URL;
-const apiServerUrl = import.meta.env.VITE_API_SERVER_URL;
+console.log(config);
 const settingsStore = useSettingsStore();
+settingsStore.settings = { ...settingsStore.settings, ...config };
+settingsStore.settings.api.apiBaseUrl = `${settingsStore.settings.api.baseUrl}:${settingsStore.settings.api.port}`;
 
 onMounted(() => {
   axios
-    .get(`${apiServerUrl}/health`)
+    .get(`${settingsStore.settings.api.apiBaseUrl}/health`)
     .then(() => {
       console.log('App: frontend found server');
     })
@@ -28,9 +34,6 @@ onMounted(() => {
         life: 3000,
       });
     });
-
-  settingsStore.setSourceBaseUrl(clientBaseUrl);
-  settingsStore.setApiServerUrl(apiServerUrl);
 });
 </script>
 
