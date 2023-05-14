@@ -4,8 +4,8 @@ import { RouterView } from 'vue-router';
 
 import NavbarMain from '@/components/NavbarMain.vue';
 
-import { useTvShowStore } from '@/stores/TVShowStore';
-import { useSettingsStore } from '@/stores/SettingsStore';
+import { useTvShowStore } from '@/stores/tvShowStore';
+import { useSettingsStore } from '@/stores/settingsStore';
 import config from '../../config.mjs';
 
 import { useToast } from 'primevue/usetoast';
