@@ -14,7 +14,6 @@ ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/google-chrome-stable
 WORKDIR /app
 COPY ./config.mjs .
 
-
 WORKDIR /app/api
 COPY ./api/package*.json .
 

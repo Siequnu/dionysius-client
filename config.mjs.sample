@@ -1,21 +1,27 @@
 const config = {
   api: {
-    port: 3000,
+    baseUrl: "http://127.0.0.1",
+    port: 18001,
   },
+
   service: {
-    baseUrl: "https://website.com/",
+    baseUrl: "https://website.com",
     login: {
       username: "username",
       password: "password",
     },
   },
   db: {
+    adminUsername: "root",
+    adminPassword: "password",
+
     username: "dionysius",
     password: "dionysius",
+
     dbName: "dionysius",
     //host: 'host.docker.internal',
-    //host: "mongo",
-    host: "127.0.0.1",
+    host: "mongo",
+    //host: "127.0.0.1",
     port: "27017",
   },
 };
