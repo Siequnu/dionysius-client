@@ -11,7 +11,7 @@ const props = defineProps({
 });
 
 const handleDownloadLink = (link) => {
-  window.open(`${settingsStore.sourceBaseUrl}/${link}`, '_blank');
+  window.open(`${settingsStore.settings.service.baseUrl}${link}`, '_blank');
 };
 </script>
 
