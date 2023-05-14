@@ -4,9 +4,7 @@ import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
-import { useSettingsStore } from '@/stores/SettingsStore';
 
-const settingsStore = useSettingsStore();
 const props = defineProps({
   id: { type: String, required: false, default: crypto.randomUUID() },
   seasons: { type: Array, required: true },

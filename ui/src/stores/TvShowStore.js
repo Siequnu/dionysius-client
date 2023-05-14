@@ -1,7 +1,7 @@
 import { axios } from '@/api/api';
 import { defineStore } from 'pinia';
 
-import { useSettingsStore } from '@/stores/SettingsStore.js';
+import { useSettingsStore } from '@/stores/settingsStore.js';
 
 export const useTvShowStore = defineStore('tvShowStore', {
   state: () => {
