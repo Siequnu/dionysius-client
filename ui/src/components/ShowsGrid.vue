@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive } from 'vue';
-import { useTvShowStore } from '@/stores/TvShowStore';
+import { useTvShowStore } from '@/stores/tvShowStore';
 
 import { useToast } from 'primevue/usetoast';
 import Dialog from 'primevue/dialog';

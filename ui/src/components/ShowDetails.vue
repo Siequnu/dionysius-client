@@ -8,8 +8,8 @@ import Button from 'primevue/button';
 import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
 
-import { useTvShowStore } from '@/stores/TvShowStore';
-import { useSettingsStore } from '@/stores/SettingsStore';
+import { useTvShowStore } from '@/stores/tvShowStore';
+import { useSettingsStore } from '@/stores/settingsStore';
 
 const toast = useToast();
 const router = useRouter();

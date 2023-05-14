@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 
 import { useSettingsStore } from '@/stores/SettingsStore.js';
 
-export const useTvShowStore = defineStore('TvShowStore', {
+export const useTvShowStore = defineStore('tvShowStore', {
   state: () => {
     return {
       settingsStore: useSettingsStore(),

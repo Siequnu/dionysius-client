@@ -1,10 +1,10 @@
 <script setup>
 import { ref } from 'vue';
 import Carousel from 'primevue/carousel';
-import { useTvShowStore } from '@/stores/TvShowStore';
+import { useTvShowStore } from '@/stores/tvShowStore';
 import ShowCard from '@/components/ShowCard.vue';
 
-const TvShowStore = useTvShowStore();
+const tvShowStore = useTvShowStore();
 
 const responsiveOptions = ref([
   {
@@ -32,7 +32,7 @@ const responsiveOptions = ref([
         <h2 class="text-white text-xl p-5 font-bold">Recent shows</h2>
       </div>
       <Carousel
-        :value="TvShowStore.shows"
+        :value="tvShowStore.shows"
         :numVisible="4"
         :numScroll="1"
         :responsiveOptions="responsiveOptions"
