@@ -30,7 +30,7 @@ export async function getShow(req, res) {
 }
 
 export async function createShow(req, res) {
-  console.log(`API: received request to create show`, req.body.id);
+  console.log(`API: received request to create show`, req.body.url);
   try {
     const showDetails = await scrapeShowDetails(req.body.url);
     const show = new Show({ ...req.body, details: showDetails });

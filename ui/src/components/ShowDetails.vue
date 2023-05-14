@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
-import axios from 'axios';
+import { axios } from '@/api/api';
 import AccordionSeason from '@/components/AccordionSeason.vue';
 import BounceLoader from '@/components/BounceLoader.vue';
 import Chip from 'primevue/chip';
@@ -22,22 +22,9 @@ const props = defineProps({ showId: String });
 let loading = ref(true);
 let apiData = reactive({});
 
-onMounted(() => {
-  console.log('Getting show details for', props.showId);
-  axios
-    .get(`${settingsStore.settings.api.apiBaseUrl}/api/show`, {
-      params: {
-        id: props.showId,
-      },
-    })
-    .then((response) => {
-      console.log(response.data);
-      apiData = response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-    .finally(() => (loading.value = false));
+onMounted(async () => {
+  apiData = await tvShowStore.getShow(props.showId);
+  loading.value = false;
 });
 
 const getTotalEpisodeCount = (seasons) => {
@@ -65,11 +52,11 @@ function handleMarkShowAsSeen() {}
 
   <div v-if="!loading" class="flex gap-3">
     <div class="flex flex-col gap-3 shadow-md rounded-lg m-3">
-      <img :src="apiData.details.imageUrl" class="rounded-lg h-80" />
+      <img :src="apiData?.details?.imageUrl" class="rounded-lg h-80" />
       <div class="flex flex-col gap-1">
         <h1 class="text-xl text-neutral-100 p-5">{{ apiData.title }}</h1>
         <div class="flex gap-3">
-          <Chip :label="`${apiData.details.seasonCount} seasons`" />
+          <Chip :label="`${apiData.details?.seasonCount} seasons`" />
           <Chip
             :label="`${getTotalEpisodeCount(apiData.details.seasons)} episodes`"
           />

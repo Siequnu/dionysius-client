@@ -12,6 +12,7 @@
   "dependencies": {
     "@vueuse/core": "^9.9.0",
     "axios": "^1.2.1",
+    "axios-cache-interceptor": "^1.0.1",
     "body-parser": "^1.20.1",
     "filereader": "^0.10.3",
     "node-fetch": "^3.3.0",

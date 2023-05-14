@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axios } from '@/api/api';
 import { defineStore } from 'pinia';
 
 import { useSettingsStore } from '@/stores/SettingsStore.js';
@@ -12,6 +12,7 @@ export const useTvShowStore = defineStore('tvShowStore', {
       currentlySelectedShow: null,
     };
   },
+  persist: true,
   actions: {
     setupStore() {
       console.log('Setting up TV show store...');
@@ -32,6 +33,27 @@ export const useTvShowStore = defineStore('tvShowStore', {
       axios.post(`${this.settingsStore.settings.api.apiBaseUrl}/api/show`, {
         ...showObject,
       });
+    },
+
+    async getShow(id) {
+      const show = this.shows.find((show) => show._id == id);
+
+      if (show) return show;
+
+      try {
+        const response = await axios.get(
+          `${this.settingsStore.settings.api.apiBaseUrl}/api/show`,
+          {
+            params: {
+              id: id,
+            },
+          }
+        );
+        return response.data;
+      } catch (error) {
+        console.error(error);
+        throw new Error('Error fetching show');
+      }
     },
   },
 });

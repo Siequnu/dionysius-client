@@ -11,7 +11,7 @@ import config from '../../config.mjs';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
 
-import axios from 'axios';
+import { axios } from '@/api/api';
 
 const toast = useToast();
 const settingsStore = useSettingsStore();

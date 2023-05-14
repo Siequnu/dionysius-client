@@ -1,7 +1,9 @@
 <script setup>
+import { ref } from 'vue';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Button from 'primevue/button';
+import Dialog from 'primevue/dialog';
 import { useSettingsStore } from '@/stores/SettingsStore';
 
 const settingsStore = useSettingsStore();
@@ -11,8 +13,11 @@ const props = defineProps({
 });
 
 const handleDownloadLink = (link) => {
-  window.open(`${settingsStore.settings.service.baseUrl}${link}`, '_blank');
+  dialogVisible.value = true;
+  //window.open(`${settingsStore.settings.service.baseUrl}${link}`);
 };
+
+const dialogVisible = ref(false);
 </script>
 
 <template>
@@ -44,4 +49,16 @@ const handleDownloadLink = (link) => {
       </AccordionTab>
     </Accordion>
   </div>
+
+  <Dialog
+    v-model:visible="dialogVisible"
+    maximizable
+    modal
+    :style="{ width: '1000px' }"
+  >
+    <iframe
+      style="width: 1000px"
+      src="https://flixtor.to/watch/tv/4275642/succession/season/4/episode/7"
+    ></iframe>
+  </Dialog>
 </template>
