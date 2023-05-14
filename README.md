@@ -46,10 +46,6 @@ Experience the future of tracking and managing your movie and TV show viewing wi
 - [Contact](#-contact)
 - [License](#-license)
 
-## 📈 Status
-
-Dionysus-Browser is in its zenith of development. We are relentlessly working on expanding our movie sources and curating personalized show recommendations based on your viewing history. We forecast to complete this phase by Q4 2023.
-
 ## 🏗️ Architecture
 
 Dionysus-Browser is built upon a microservices architecture, consisting of five main components. Each component plays a vital role, and they are interlaced through Docker Compose for robust system management and scalability:
@@ -87,6 +83,10 @@ Please ensure your system meets the following requirements:
 ## 👩‍💻 Contribution
 
 We welcome contributions! Feel free to fork the repository, make changes, and submit a pull request. If you spot any issues, report them in the issue tracker. For substantial changes, open an issue first to discuss your proposals.
+
+## 📈 Status
+
+Dionysus-Browser is in its zenith of development. We are working on expanding our movie sources and curating personalized show recommendations based on your viewing history. We forecast to complete this phase by Q4 2023.
 
 ## 🐞 Known Bugs & Fixes
 
