@@ -1,43 +1,24 @@
-import { newPage } from "../browser/browser.js";
 import { Show } from "../models/models.js";
+import { scrapeShowDetails } from "../scrapers/showScrapers.js";
 
-const fetch = (...args) =>
-  import("node-fetch").then(({ default: fetch }) => fetch(...args));
-
-export async function getShowImageUrl(req, res) {
+export async function getShows(req, res) {
   try {
-    console.log(`API: getting show image url for ${req.body.url}`);
-    const imageUrl = await findShowImageUrl(req.body.url);
-    console.log(imageUrl);
-    res.json({ imageUrl });
+    res.json({ shows: await Show.find() });
   } catch (err) {
-    res.json({ error: err.message });
+    res.json({ error: err });
+    console.error("Error fetching shows:", err);
   }
 }
 
-export async function findShowImageUrl(url) {
-  const page = await newPage();
-  await page.goto(url);
-
-  const imgElement = await page.$(".section-watch .section-watch-overview img");
-  const imageUrl = imgElement
-    ? await page.evaluate((img) => img.getAttribute("src"), imgElement)
-    : null;
-
-  await page.close();
-
-  return imageUrl;
-}
-
-export async function getShowDetails(req, res) {
+export async function getShow(req, res) {
   try {
-    console.log("Show controller: got request for", req.body);
-    const show = await Show.findById(req.body.id);
+    console.log("Show controller: got request for", req.query);
+    const show = await Show.findById(req.query.id);
 
-    const showData = await getShowDetailsHelper(show.url);
+    const showData = await scrapeShowDetails(show.url);
 
     const updatedShow = await Show.findOneAndUpdate(
-      { _id: req.body.id },
+      { _id: req.query.id },
       { lastUpdated: new Date(), details: showData },
       { new: true }
     );
@@ -47,92 +28,27 @@ export async function getShowDetails(req, res) {
     console.error("Error fetching show details:", err);
   }
 }
-export async function getShowDetailsHelper(url) {
-  const page = await newPage();
 
-  await page.goto(url);
-
-  let showData = {
-    imageUrl: null,
-    seasonCount: null,
-    seasons: [],
-  };
-
+export async function createShow(req, res) {
+  console.log(`API: received request to create show`, req.body.id);
   try {
-    showData.imageUrl = await findShowImageUrl(url); // Assuming getShowImageUrl is defined elsewhere
-
-    const seasonCountElement = await page.$(
-      ".section-watch-overview .badge.badge-info"
-    );
-    showData.seasonCount = await page.evaluate(
-      (element) => element.textContent.replace("Seasons: ", ""),
-      seasonCountElement
-    );
-
-    const seasonElements = await page.$$(".section-watch-season table tbody");
-
-    for (let i = 0; i < seasonElements.length; i++) {
-      const seasonObject = {
-        season: showData.seasonCount - i,
-        episodes: [],
-      };
-
-      const episodeElements = await seasonElements[i].$$("tr");
-
-      for (let episodeElement of episodeElements) {
-        const number = await episodeElement.$eval(
-          "th",
-          (element) => element.textContent
-        );
-        const title = await episodeElement.$eval(
-          ".epTitle",
-          (element) => element.textContent
-        );
-        const datePublished = await episodeElement.$eval(
-          "*[itemprop = 'datePublished'] span:last-child",
-          (element) => element.textContent
-        );
-        const downloadLink = await episodeElement.$eval(
-          ".downloadvid",
-          (element) => element.getAttribute("data-href")
-        );
-        const episodeThumbnail = await episodeElement.$eval(
-          ".watch-episode-thumb",
-          (element) => element.getAttribute("src")
-        );
-
-        seasonObject.episodes.push({
-          number,
-          title,
-          datePublished,
-          downloadLink,
-          episodeThumbnail,
-        });
-      }
-
-      showData.seasons.push(seasonObject);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-  page.close();
-  return showData;
-}
-
-export async function getBase64Image(req, res) {
-  try {
-    const base64 = await imageUrlToBase64(req.body.url);
-    res.json({ base64: base64 });
+    const showDetails = await scrapeShowDetails(req.body.url);
+    const show = new Show({ ...req.body, details: showDetails });
+    await show.save();
+    res.json(show);
   } catch (err) {
     res.json({ error: err });
-    console.error("Error fetching show details:", err);
+    console.error("Error creating show:", err);
   }
 }
 
-async function imageUrlToBase64(imageUrl) {
-  const imageUrlData = await fetch(imageUrl);
-  const buffer = await imageUrlData.arrayBuffer();
-  const stringifiedBuffer = Buffer.from(buffer).toString("base64");
-  const contentType = imageUrlData.headers.get("content-type");
-  return `data:image/${contentType};base64,${stringifiedBuffer}`;
+export async function deleteShow(req, res) {
+  console.log(`API: received request to delete show ${req.query.id}`);
+  try {
+    const show = await Show.findByIdAndDelete(req.query.id);
+    res.json(show);
+  } catch (err) {
+    res.json({ error: err });
+    console.error("Error deleting show:", err);
+  }
 }

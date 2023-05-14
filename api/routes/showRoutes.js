@@ -1,13 +1,15 @@
 import { Router } from "express";
 const router = Router();
 import {
-  getShowImageUrl,
-  getShowDetails,
-  getBase64Image,
+  getShow,
+  getShows,
+  createShow,
+  deleteShow,
 } from "../controllers/showController.js";
 
-router.post("/getShowImageUrl", getShowImageUrl);
-router.post(`/getShowDetails`, getShowDetails);
-router.post(`/getBase64Image`, getBase64Image);
+router.get(`/shows`, getShows);
+router.get(`/show`, getShow);
+router.post(`/show`, createShow);
+router.delete(`/show`, deleteShow);
 
 export default router;

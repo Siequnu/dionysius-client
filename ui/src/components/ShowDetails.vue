@@ -25,8 +25,10 @@ let apiData = reactive({});
 onMounted(() => {
   console.log('Getting show details for', props.showId);
   axios
-    .post(`${settingsStore.settings.api.apiBaseUrl}/getShowDetails`, {
-      id: props.showId,
+    .get(`${settingsStore.settings.api.apiBaseUrl}/api/show`, {
+      params: {
+        id: props.showId,
+      },
     })
     .then((response) => {
       console.log(response.data);
@@ -45,11 +47,15 @@ const getTotalEpisodeCount = (seasons) => {
 };
 
 async function handleRemoveShow() {
-  axios.post(`${settingsStore.settings.api.apiBaseUrl}/manage/show/delete`, {
-    id: tvShowStore.currentlySelectedShow._id,
+  axios.delete(`${settingsStore.settings.api.apiBaseUrl}/api/show`, {
+    params: {
+      id: props.showId,
+    },
   });
-  router.push('/');
+  router.push('/all');
 }
+
+function handleMarkShowAsSeen() {}
 </script>
 
 <template>
