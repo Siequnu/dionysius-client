@@ -68,7 +68,7 @@ To run Dionysus-Browser locally:
 
 1. Clone this repository.
 2. At the repository root, `cp config.mjs.sample config.mjs && cp docker-compose.yml.sample docker-compose.yml`
-3. In `config.mjs.sample`, replace `service.baseUrl` with your media aggregator, and populate `login.username` and `login.password` with your login.
+3. In `config.mjs`, replace `service.baseUrl` with your media aggregator, and populate `login.username` and `login.password` with your login.
 4. [OPTIONAL] replace secrets in docker-compose.yml and config.mjs; default set will run.
 5. At the repository root, execute `docker compose up`.
 6. Access the web app at `localhost:18000`.
