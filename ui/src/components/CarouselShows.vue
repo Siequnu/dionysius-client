@@ -41,10 +41,7 @@ const responsiveOptions = ref([
         :autoplayInterval="3000"
       >
         <template #item="slotProps">
-          <ShowCard
-            :title="slotProps.data.title"
-            :showUrl="slotProps.data.showUrl"
-          />
+          <ShowCard :showObject="slotProps.data" />
         </template>
       </Carousel>
     </div>
