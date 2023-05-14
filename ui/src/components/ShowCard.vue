@@ -1,11 +1,10 @@
 <script setup>
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
 const props = defineProps({
-  showObject: { type: String, required: true },
+  showObject: { type: Object, required: true },
 });
 
 function goToShowPage() {
@@ -18,10 +17,6 @@ function goToShowPage() {
     class="rounded-md shadow-md cursor-pointer hover:scale-[1.02] transition-all"
     @click="goToShowPage"
   >
-    <img
-      v-if="!loading"
-      class="rounded-md"
-      :src="props.showObject.details.imageUrl"
-    />
+    <img class="rounded-md" :src="props.showObject.details.imageUrl" />
   </div>
 </template>
