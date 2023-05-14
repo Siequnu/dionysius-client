@@ -1,10 +1,10 @@
 <div align="center">
 
-# Dionysus-Browser: Elevate Your Movie & TV Show Experience 🍿
+# Dionysius-Browser: Elevate Your Movie & TV Show Experience 🍿
 
-Experience the future of tracking and managing your movie and TV show viewing with Dionysus-Browser, an all-in-one, feature-rich solution designed to make your entertainment journey seamless and personalized.
+Experience the future of tracking and managing your movie and TV show viewing with Dionysius-Browser, an all-in-one, feature-rich solution designed to make your entertainment journey seamless and personalized.
 
-![Dionysus-Browser Interface](screenshots/home.png)
+![Dionysius-Browser Interface](screenshots/home.png)
 
 </div>
 
